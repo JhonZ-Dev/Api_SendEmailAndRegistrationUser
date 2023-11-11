@@ -4,6 +4,8 @@ import com.example.envioemailapi_springboot.modelo.ModeloUsuario;
 import com.example.envioemailapi_springboot.repositorio.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,4 +28,15 @@ public class ServicioUsuario {
 
         //}
     }
+    private void sendRegistrationEmail(String email) {
+        MimeMessagePreparator messagePreparator = mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setTo(email);
+            messageHelper.setSubject("Confirmación de Registro");
+            messageHelper.setText("¡Gracias por registrarte! Tu registro ha sido confirmado.");
+        };
+
+        mailSender.send(messagePreparator);
+    }
+
 }
